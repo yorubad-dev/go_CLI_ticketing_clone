@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
 	conferenceName := "King Conference"
@@ -9,7 +12,7 @@ func main() {
 
 	// greeting
 	fmt.Printf("Welcome to %v \n", conferenceName)
-	fmt.Printf("We have a total of %v tickets and %v tickets available for the %v \n",conferenceTickets,remainingTickets,conferenceName )
+	fmt.Printf("We have a total of %v tickets and %v tickets available for the %v \n", conferenceTickets, remainingTickets, conferenceName)
 
 	// user input
 	var firstName string
@@ -29,7 +32,12 @@ func main() {
 	fmt.Println("Enter Number of Tickets: ")
 	fmt.Scan(&userTicket)
 
-	fmt.Printf("Thank you %v %v for purchasing %v tickets, confirmation will be sent to %v \n", firstName, lastName,userTicket, email)
+	validNames := len(firstName) >= 2 && len(lastName) >= 2
+	validEmail := strings.Contains("email", "@")
+	validTickets := remainingTickets > 0 && userTicket <= remainingTickets
+
+
+	fmt.Printf("Thank you %v %v for purchasing %v tickets, confirmation will be sent to %v \n", firstName, lastName, userTicket, email)
 	remainingTickets = remainingTickets - userTicket
-	fmt.Printf("%v purchaseed, %v tickets remaining \n",userTicket, remainingTickets)
+	fmt.Printf("%v purchaseed, %v tickets remaining \n", userTicket, remainingTickets)
 }
