@@ -9,6 +9,7 @@ func main() {
 	conferenceName := "King Conference"
 	const conferenceTickets int = 50
 	var remainingTickets uint = 50
+	bookings := []string{}
 
 	// greeting
 	fmt.Printf("Welcome to %v \n", conferenceName)
@@ -40,6 +41,10 @@ func main() {
 			fmt.Printf("Thank you %v %v for purchasing %v tickets, confirmation will be sent to %v \n", firstName, lastName, userTicket, email)
 			remainingTickets = remainingTickets - userTicket
 			fmt.Printf("%v purchased, %v tickets remaining \n", userTicket, remainingTickets)
+			// bookings 
+			bookings = append(bookings, firstName+" "+lastName)
+			fmt.Printf("These are all our booking: %v\n", bookings)
+
 			if remainingTickets == 0 {
 				fmt.Printf("%v has been booked out\n", conferenceName)
 				break
@@ -55,6 +60,5 @@ func main() {
 				println("Ticket entered is invalid")
 			}
 		}
-
 	}
 }
