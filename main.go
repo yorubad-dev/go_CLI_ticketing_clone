@@ -36,8 +36,10 @@ func main() {
 	validEmail := strings.Contains("email", "@")
 	validTickets := remainingTickets > 0 && userTicket <= remainingTickets
 
+	if validNames && validEmail && validTickets {
+		fmt.Printf("Thank you %v %v for purchasing %v tickets, confirmation will be sent to %v \n", firstName, lastName, userTicket, email)
+		remainingTickets = remainingTickets - userTicket
+		fmt.Printf("%v purchased, %v tickets remaining \n", userTicket, remainingTickets)
+	}
 
-	fmt.Printf("Thank you %v %v for purchasing %v tickets, confirmation will be sent to %v \n", firstName, lastName, userTicket, email)
-	remainingTickets = remainingTickets - userTicket
-	fmt.Printf("%v purchaseed, %v tickets remaining \n", userTicket, remainingTickets)
 }
