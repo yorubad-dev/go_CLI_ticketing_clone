@@ -36,14 +36,22 @@ func main() {
 		validNames := len(firstName) >= 2 && len(lastName) >= 2
 		validEmail := strings.Contains(email, "@")
 		validTickets := remainingTickets > 0 && userTicket <= remainingTickets
-
+		
 		if validNames && validEmail && validTickets {
+			bookings = append(bookings, firstName+" "+lastName)
+
 			fmt.Printf("Thank you %v %v for purchasing %v tickets, confirmation will be sent to %v \n", firstName, lastName, userTicket, email)
 			remainingTickets = remainingTickets - userTicket
 			fmt.Printf("%v purchased, %v tickets remaining \n", userTicket, remainingTickets)
+			
 			// bookings 
-			bookings = append(bookings, firstName+" "+lastName)
+			first_name := []string{}
+			for _, booking := range bookings {
+				name := strings.Fields(booking)
+				first_name = append(first_name, name[0])
+			}
 			fmt.Printf("These are all our booking: %v\n", bookings)
+			fmt.Printf("These are all the first name of the bookings: %v\n", first_name)
 
 			if remainingTickets == 0 {
 				fmt.Printf("%v has been booked out\n", conferenceName)
