@@ -19,10 +19,8 @@ func main() {
 		// user input
 		firstName, lastName, email, userTicket := userInput()
 
-		validNames := len(firstName) >= 2 && len(lastName) >= 2
-		validEmail := strings.Contains(email, "@")
-		validTickets := remainingTickets > 0 && userTicket <= remainingTickets
-
+		// user input validation
+		validNames, validEmail, validTickets := userInputValidation(firstName, lastName, email, remainingTickets, userTicket)
 		if validNames && validEmail && validTickets {
 			bookings = append(bookings, firstName+" "+lastName)
 
@@ -82,4 +80,12 @@ func userInput() (string, string, string, uint) {
 	fmt.Scan(&userTicket)
 
 	return firstName, lastName, email, userTicket
+}
+
+func userInputValidation(firstName string, lastName string, email string, remainingTickets uint, userTicket uint) (bool, bool, bool) {
+	validNames := len(firstName) >= 2 && len(lastName) >= 2
+	validEmail := strings.Contains(email, "@")
+	validTickets := remainingTickets > 0 && userTicket <= remainingTickets
+
+	return validNames, validEmail, validTickets
 }
