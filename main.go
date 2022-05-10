@@ -5,15 +5,16 @@ import (
 	"strings"
 )
 
+const conferenceTickets int = 50
+
 func main() {
 	conferenceName := "King Conference"
-	const conferenceTickets int = 50
 	var remainingTickets uint = 50
 	bookings := []string{}
 
 	// greeting
-	fmt.Printf("Welcome to %v \n", conferenceName)
-	fmt.Printf("We have a total of %v tickets and %v tickets available for the %v \n", conferenceTickets, remainingTickets, conferenceName)
+	greetUser(conferenceName, remainingTickets)
+
 	for {
 		// user input
 		firstName, lastName, email, userTicket := userInput()
@@ -21,15 +22,15 @@ func main() {
 		validNames := len(firstName) >= 2 && len(lastName) >= 2
 		validEmail := strings.Contains(email, "@")
 		validTickets := remainingTickets > 0 && userTicket <= remainingTickets
-		
+
 		if validNames && validEmail && validTickets {
 			bookings = append(bookings, firstName+" "+lastName)
 
 			fmt.Printf("Thank you %v %v for purchasing %v tickets, confirmation will be sent to %v \n", firstName, lastName, userTicket, email)
 			remainingTickets = remainingTickets - userTicket
 			fmt.Printf("%v purchased, %v tickets remaining \n", userTicket, remainingTickets)
-			
-			// bookings 
+
+			// bookings
 			first_name := []string{}
 			for _, booking := range bookings {
 				name := strings.Fields(booking)
@@ -54,6 +55,12 @@ func main() {
 			}
 		}
 	}
+}
+
+func greetUser(conferenceName string, remainingTickets uint) {
+	fmt.Printf("Welcome to %v \n", conferenceName)
+	fmt.Printf("We have a total of %v tickets and %v tickets available for the %v \n", conferenceTickets, remainingTickets, conferenceName)
+	// return conferenceName, remainingTickets
 }
 
 func userInput() (string, string, string, uint) {
