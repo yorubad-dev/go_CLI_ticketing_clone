@@ -16,22 +16,7 @@ func main() {
 	fmt.Printf("We have a total of %v tickets and %v tickets available for the %v \n", conferenceTickets, remainingTickets, conferenceName)
 	for {
 		// user input
-		var firstName string
-		var lastName string
-		var email string
-		var userTicket uint
-
-		fmt.Println("Enter First Name: ")
-		fmt.Scan(&firstName)
-
-		fmt.Println("Enter last Name: ")
-		fmt.Scan(&lastName)
-
-		fmt.Println("Enter Email Address: ")
-		fmt.Scan(&email)
-
-		fmt.Println("Enter Number of Tickets: ")
-		fmt.Scan(&userTicket)
+		firstName, lastName, email, userTicket := userInput()
 
 		validNames := len(firstName) >= 2 && len(lastName) >= 2
 		validEmail := strings.Contains(email, "@")
@@ -69,4 +54,25 @@ func main() {
 			}
 		}
 	}
+}
+
+func userInput() (string, string, string, uint) {
+	var firstName string
+	var lastName string
+	var email string
+	var userTicket uint
+
+	fmt.Println("Enter First Name: ")
+	fmt.Scan(&firstName)
+
+	fmt.Println("Enter last Name: ")
+	fmt.Scan(&lastName)
+
+	fmt.Println("Enter Email Address: ")
+	fmt.Scan(&email)
+
+	fmt.Println("Enter Number of Tickets: ")
+	fmt.Scan(&userTicket)
+
+	return firstName, lastName, email, userTicket
 }
