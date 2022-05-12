@@ -21,19 +21,16 @@ func main() {
 
 		// user input validation
 		validNames, validEmail, validTickets := userInputValidation(firstName, lastName, email, remainingTickets, userTicket)
+
 		if validNames && validEmail && validTickets {
-			bookings = append(bookings, firstName+" "+lastName)
 
 			fmt.Printf("Thank you %v %v for purchasing %v tickets, confirmation will be sent to %v \n", firstName, lastName, userTicket, email)
-			remainingTickets = remainingTickets - userTicket
 			fmt.Printf("%v purchased, %v tickets remaining \n", userTicket, remainingTickets)
+			remainingTickets = remainingTickets - userTicket
 
 			// bookings
-			first_name := []string{}
-			for _, booking := range bookings {
-				name := strings.Fields(booking)
-				first_name = append(first_name, name[0])
-			}
+			bookings = append(bookings, firstName+" "+lastName)
+			first_name := getFirstName(bookings)
 			fmt.Printf("These are all our booking: %v\n", bookings)
 			fmt.Printf("These are all the first name of the bookings: %v\n", first_name)
 
@@ -88,4 +85,13 @@ func userInputValidation(firstName string, lastName string, email string, remain
 	validTickets := remainingTickets > 0 && userTicket <= remainingTickets
 
 	return validNames, validEmail, validTickets
+}
+
+func getFirstName(bookings []string) []string{
+	first_name := []string{}
+	for _, booking := range bookings {
+		name := strings.Fields(booking)
+		first_name = append(first_name, name[0])
+	}
+	return first_name
 }
