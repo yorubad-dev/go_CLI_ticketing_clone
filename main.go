@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 	"time"
+	"sync"
 )
 
 const conferenceTickets int = 50
@@ -18,47 +19,46 @@ type UserData struct {
 	email          string
 	numberOfTicket uint
 }
+var wg = sync.WaitGroup{}
 
 func main() {
-
 	// greeting
 	greetUser()
-
-	for {
-		// user input
-		firstName, lastName, email, userTicket := userInput()
-
-		// user input validation
-		validNames, validEmail, validTickets := userInputValidation(firstName, lastName, email, userTicket)
-
-		if validNames && validEmail && validTickets {
-			// bookings
-			bookingTicket(firstName, lastName, email, userTicket)
-
-			// sending ticket simualation
-			go delaySimulation(firstName, lastName, userTicket, email)
-
-			// firstnames
-			first_name := getFirstName()
-			fmt.Printf("These are all our booking: %v\n", bookings)
-			fmt.Printf("These are all the first name of the bookings: %v\n", first_name)
-
-			if remainingTickets == 0 {
-				fmt.Printf("%v has been booked out\n", conferenceName)
-				break
-			}
-		} else {
-			if !validNames {
-				fmt.Println("Either first name or last name are too short")
-			}
-			if !validEmail {
-				fmt.Println("Email does not contain @... it is invalid")
-			}
-			if !validTickets {
-				println("Ticket entered is invalid")
-			}
+	
+	// user input
+	firstName, lastName, email, userTicket := userInput()
+	
+	// user input validation
+	validNames, validEmail, validTickets := userInputValidation(firstName, lastName, email, userTicket)
+	
+	if validNames && validEmail && validTickets {
+		// bookings
+		bookingTicket(firstName, lastName, email, userTicket)
+		
+		// sending ticket simualation
+		wg.Add(1)
+		go delaySimulation(firstName, lastName, userTicket, email)
+		
+		// firstnames
+		first_name := getFirstName()
+		fmt.Printf("These are all our booking: %v\n", bookings)
+		fmt.Printf("These are all the first name of the bookings: %v\n", first_name)
+		
+		if remainingTickets == 0 {
+			fmt.Printf("%v has been booked out\n", conferenceName)
+		}
+	} else {
+		if !validNames {
+			fmt.Println("Either first name or last name are too short")
+		}
+		if !validEmail {
+			fmt.Println("Email does not contain @... it is invalid")
+		}
+		if !validTickets {
+			println("Ticket entered is invalid")
 		}
 	}
+	wg.Wait()
 }
 
 func greetUser() {
@@ -128,4 +128,5 @@ func delaySimulation(firstName string, lastName string, userTicket uint, email s
 	println("###############")
 	fmt.Printf("Sending: \n %v \n to email address %v \n", ticket, email)
 	println("###############")
+	wg.Done()
 }
