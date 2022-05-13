@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"strconv"
+	// "strconv"
 	"strings"
 )
 
@@ -10,7 +10,7 @@ const conferenceTickets int = 50
 
 var conferenceName string = "King Conference"
 var remainingTickets uint = 50
-var bookings = make([]map[string]string, 0)
+var bookings = make([]UserData, 0)
 
 type UserData struct {
 	first_name string
@@ -97,7 +97,7 @@ func userInputValidation(firstName string, lastName string, email string, userTi
 func getFirstName() []string {
 	first_names := []string{}
 	for _, booking := range bookings {
-		first_names = append(first_names, booking["FirstName"])
+		first_names = append(first_names, booking.first_name)
 	}
 	return first_names
 }
@@ -106,7 +106,8 @@ func bookingTicket(firstName string, lastName string, email string, userTicket u
 	userData := UserData{
 		first_name: firstName,
 		last_name: lastName,
-		email: ,
+		email: email,
+		numberOfTicket: userTicket,
 	}
 	// userData["FirstName"] = firstName
 	// userData["lastName"] = lastName
