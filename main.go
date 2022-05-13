@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"time"
 )
 
 const conferenceTickets int = 50
@@ -12,9 +13,9 @@ var remainingTickets uint = 50
 var bookings = make([]UserData, 0)
 
 type UserData struct {
-	first_name string
-	last_name string
-	email string
+	first_name     string
+	last_name      string
+	email          string
 	numberOfTicket uint
 }
 
@@ -31,10 +32,11 @@ func main() {
 		validNames, validEmail, validTickets := userInputValidation(firstName, lastName, email, userTicket)
 
 		if validNames && validEmail && validTickets {
-			// sending ticket simualation
-			delaySimulation(firstName, lastName, userTicket, email)
 			// bookings
 			bookingTicket(firstName, lastName, email, userTicket)
+
+			// sending ticket simualation
+			go delaySimulation(firstName, lastName, userTicket, email)
 
 			// firstnames
 			first_name := getFirstName()
@@ -104,9 +106,9 @@ func getFirstName() []string {
 
 func bookingTicket(firstName string, lastName string, email string, userTicket uint) {
 	userData := UserData{
-		first_name: firstName,
-		last_name: lastName,
-		email: email,
+		first_name:     firstName,
+		last_name:      lastName,
+		email:          email,
 		numberOfTicket: userTicket,
 	}
 	// userData["FirstName"] = firstName
@@ -120,8 +122,9 @@ func bookingTicket(firstName string, lastName string, email string, userTicket u
 	fmt.Printf("%v ticket purchased, %v tickets remaining \n", userTicket, remainingTickets)
 }
 
-func delaySimulation(firstName string, lastName string, userTicket uint, email string)  {
-	ticket := fmt.Sprintf("%v tickets for %v %v", userTicket, firstName, lastName )
+func delaySimulation(firstName string, lastName string, userTicket uint, email string) {
+	time.Sleep(5 * time.Second)
+	ticket := fmt.Sprintf("%v tickets for %v %v", userTicket, firstName, lastName)
 	println("###############")
 	fmt.Printf("Sending: \n %v \n to email address %v \n", ticket, email)
 	println("###############")
