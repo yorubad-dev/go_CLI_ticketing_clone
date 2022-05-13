@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	// "strconv"
 	"strings"
 )
 
@@ -32,7 +31,8 @@ func main() {
 		validNames, validEmail, validTickets := userInputValidation(firstName, lastName, email, userTicket)
 
 		if validNames && validEmail && validTickets {
-
+			// sending ticket simualation
+			delaySimulation(firstName, lastName, userTicket, email)
 			// bookings
 			bookingTicket(firstName, lastName, email, userTicket)
 
@@ -118,4 +118,11 @@ func bookingTicket(firstName string, lastName string, email string, userTicket u
 	remainingTickets = remainingTickets - userTicket
 	fmt.Printf("Thank you %v %v for purchasing %v tickets, confirmation will be sent to %v \n", firstName, lastName, userTicket, email)
 	fmt.Printf("%v ticket purchased, %v tickets remaining \n", userTicket, remainingTickets)
+}
+
+func delaySimulation(firstName string, lastName string, userTicket uint, email string)  {
+	ticket := fmt.Sprintf("%v tickets for %v %v", userTicket, firstName, lastName )
+	println("###############")
+	fmt.Printf("Sending: \n %v \n to email address %v \n", ticket, email)
+	println("###############")
 }
