@@ -2,13 +2,22 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
 const conferenceTickets int = 50
+
 var conferenceName string = "King Conference"
 var remainingTickets uint = 50
-var bookings= []string{}
+var bookings = make([]map[string]string, 0)
+
+type UserData struct {
+	first_name string
+	last_name string
+	email string
+	numberOfTicket uint
+}
 
 func main() {
 
@@ -24,13 +33,11 @@ func main() {
 
 		if validNames && validEmail && validTickets {
 
-			fmt.Printf("Thank you %v %v for purchasing %v tickets, confirmation will be sent to %v \n", firstName, lastName, userTicket, email)
-			fmt.Printf("%v ticket purchased, %v tickets remaining \n", userTicket, remainingTickets)
-			remainingTickets = remainingTickets - userTicket
-
 			// bookings
-			bookings = append(bookings, firstName+" "+lastName)
-			first_name := getFirstName(bookings)
+			bookingTicket(firstName, lastName, email, userTicket)
+
+			// firstnames
+			first_name := getFirstName()
 			fmt.Printf("These are all our booking: %v\n", bookings)
 			fmt.Printf("These are all the first name of the bookings: %v\n", first_name)
 
@@ -87,11 +94,27 @@ func userInputValidation(firstName string, lastName string, email string, userTi
 	return validNames, validEmail, validTickets
 }
 
-func getFirstName(bookings []string) []string{
-	first_name := []string{}
+func getFirstName() []string {
+	first_names := []string{}
 	for _, booking := range bookings {
-		name := strings.Fields(booking)
-		first_name = append(first_name, name[0])
+		first_names = append(first_names, booking["FirstName"])
 	}
-	return first_name
+	return first_names
+}
+
+func bookingTicket(firstName string, lastName string, email string, userTicket uint) {
+	userData := UserData{
+		first_name: firstName,
+		last_name: lastName,
+		email: ,
+	}
+	// userData["FirstName"] = firstName
+	// userData["lastName"] = lastName
+	// userData["email"] = email
+	// userData["numberOfTicket"] = strconv.FormatUint(uint64(userTicket), 10)
+
+	bookings = append(bookings, userData)
+	remainingTickets = remainingTickets - userTicket
+	fmt.Printf("Thank you %v %v for purchasing %v tickets, confirmation will be sent to %v \n", firstName, lastName, userTicket, email)
+	fmt.Printf("%v ticket purchased, %v tickets remaining \n", userTicket, remainingTickets)
 }
